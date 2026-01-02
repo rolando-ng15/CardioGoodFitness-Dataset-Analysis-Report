@@ -1,5 +1,5 @@
 ---
-title: "Final Project"
+title: "CardioGoodFitness Analysis Report"
 author: "Rolando Ng"
 date: "2025-11-25"
 output:
@@ -116,6 +116,7 @@ plot(model$residuals, main="Residual Plot", ylab="Residuals") #Show how far the 
 
 abline(h=0, col="red") #Just add a line at zero to help see whether residuals are evenly spread above and below 0.
 ```
+
 
 
 
