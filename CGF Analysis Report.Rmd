@@ -1,0 +1,121 @@
+---
+title: "Final Project"
+author: "Rolando Ng"
+date: "2025-11-25"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+data <- read.csv("CardioGoodFitness-2.csv")
+```
+
+
+
+# 1. Load Dataset and Metadata
+
+```{r}
+head(data)
+```
+
+```{r}
+str(data) #Shows the structure of the dataset, including each variable’s type and example values.
+
+nrow(data) #Tells how many rows (customers) are in the dataset.
+
+ncol(data) #Tells how many columns (variables) the dataset contains.
+
+names(data) #Lists the names of all the variables in the dataset.
+
+```
+
+
+
+# 2. Exploratory Data Analysis (EDA)
+## Categorical Data
+```{r}
+table(data$Product) #Counts how many customers bought each treadmill model.
+barplot(table(data$Product), main="Treadmill Models", col="yellow") #Show the number of customers for each treadmill model.
+
+
+table(data$Gender) #Counts how many male and female customers there are.
+barplot(table(data$Gender), main="Gender Count", col="pink") #Compare the number of male vs. female customers.
+
+
+table(data$MaritalStatus) #Counts how many customers are single or partnered.
+barplot(table(data$MaritalStatus), main="Marital Status", col="blue") #Show the number of customers in each marital status group.
+```
+
+
+
+## Numerical Data
+```{r}
+hist(data$Age, main="Age Distribution", xlab="Age") #Shows which age ranges are most common.
+
+hist(data$Income, main="Income Distribution", xlab="Income") #Shows the spread of customer incomes and helps identify low, medium, and high earners.
+
+hist(data$Education, main="Education", xlab="Years") #Displays how many years of education customers typically have.
+
+hist(data$Usage, main="Weekly Usage", xlab="Times per Week") #Shows how often customers plan to use the treadmill each week.
+
+hist(data$Miles, main="Miles per Week", xlab="Miles") #Displays how many miles customers expect to run per week.
+
+```
+
+
+
+# 3. Categorical vs Categorical
+
+```{r}
+barplot(table(data$Product, data$Gender), beside=TRUE, legend=TRUE, main="Product by Gender") #Compare how many males and females purchased each treadmill model.
+
+barplot(table(data$Product, data$MaritalStatus), beside=TRUE, legend=TRUE, main="Product by Marital Status") #Show how single and partnered customers differ in the treadmill models they purchased.
+
+```
+
+
+
+# 4. Numerical vs Numerical
+```{r}
+plot(data$Usage, data$Miles, main="Miles vs Usage", xlab="Usage", ylab="Miles") #Show the relationship between weekly treadmill usage and the number of miles customers plan to run.
+
+plot(data$Age, data$Income, main="Income vs Age", xlab="Age", ylab="Income") #Show how customer income varies across different ages.
+
+```
+
+
+
+# 5. Categorical vs Numerical
+
+```{r}
+boxplot(Income ~ Product, data=data, main="Income by Product", xlab="Product", ylab="Income") #Show how customer income levels differ across the three treadmill models.
+
+boxplot(Fitness ~ Product, data=data, main="Fitness by Product", xlab="Product", ylab="Fitness") #Compare fitness ratings for customers who purchased each treadmill model.
+
+boxplot(Usage ~ Gender, data=data, main="Usage by Gender", xlab="Gender", ylab="Usage") #Show how weekly treadmill usage differs between male and female customers.
+
+```
+
+
+# 6. Simple Linear Model
+```{r}
+model <- lm(Usage ~ Age + Income + Education, data=data) #Linear model that tries to predict weekly treadmill usage based on age, income, and education.
+
+summary(model) #Displays the model’s results, including coefficient estimates, significance levels, and how well the model explains usage (R2).
+```
+
+
+## Residual Plot
+```{r}
+plot(model$residuals, main="Residual Plot", ylab="Residuals") #Show how far the model’s predictions are from the actual usage values.
+
+abline(h=0, col="red") #Just add a line at zero to help see whether residuals are evenly spread above and below 0.
+```
+
+
+
